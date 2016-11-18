@@ -26,5 +26,7 @@ for li in playlist_lis:
         print("Failed to extract title or artist from playlist entry")
         print(li.prettify())
         print()
-print(songs)
+
+for song in songs:
+    print(song)
 
