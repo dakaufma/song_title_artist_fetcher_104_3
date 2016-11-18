@@ -6,7 +6,7 @@
 # lyrics download: glyr-git (AUR)
 
 function usage() {
-	echo <<EOF
+	cat <<EOF
 Usage: getSongsAndLyrics.sh songlist
 
 Each line of the file songlist should have the format
