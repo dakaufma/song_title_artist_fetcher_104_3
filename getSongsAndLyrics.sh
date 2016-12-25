@@ -31,13 +31,15 @@ do
     ARTIST=$(echo $LINE | sed "s/.*, [\"']//" | sed "s/[\"'])//")
     CLEAN_TITLE=$(echo "$TITLE" | sed "s/(.*)//g" | sed "s/\\[.*\\]//g")
     CLEAN_ARTIST=$(echo "$ARTIST" | sed "s/(.*)//g" | sed "s/\\[.*\\]//g")
+	CLEAN_ARTIST=$(echo "${CLEAN_ARTIST}" | sed 's/ feat\..*//')
+	CLEAN_ARTIST=$(echo "${CLEAN_ARTIST}" | sed 's/ Featuring.*//')
 
 	DIR="${CLEAN_TITLE}__${CLEAN_ARTIST}"
 	if [ ! -d "${DIR}" ]; then
 		mkdir -p "$DIR"
 
 		echo "Downloading music to ${DIR}"
-		youtube-dl --quiet --extract-audio --audio-format "best" --no-overwrites --output "${DIR}/${TITLE}.%(ext)s" "ytsearch:${TITLE}"
+		youtube-dl --quiet --extract-audio --audio-format "best" --no-overwrites --output "${DIR}/${TITLE}.%(ext)s" "ytsearch:${CLEAN_TITLE} ${CLEAN_ARTIST}"
 		echo "Downloading lyrics to ${DIR}"
 		glyrc lyrics --artist "${CLEAN_ARTIST}" --title "${CLEAN_TITLE}" --parallel 9 --number 1 --write "${DIR}/lyrics.txt" --verbosity 0
 	else
